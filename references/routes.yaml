@@ -1,0 +1,613 @@
+# routes.yaml — 网页访问路由决策配置表
+# 用途：决策树 V4 第 0 层 OpenCLI 快捷通道查表使用
+# 生成日期：2026-04-11
+# 来源：opencli v1.5.6 list 输出 + eze-is/web-access 开源版整理
+# 维护：每次 opencli 升级后重新生成
+
+---
+
+## 分类说明
+
+# opencli_type 取值：
+#   - public: 无需登录，直接执行，0 依赖，1-3 秒
+#   - cookie: 需登录态，检查 Bridge 连接后执行 (opencli doctor)
+#   - intercept: 需拦截浏览器请求获取数据，依赖 Bridge 登录态
+#   - ui: 需要桌面应用 CDP 操作，不走 OpenCLI 快捷通道，降级到 CDP
+#
+# 不在本文件中的站点：
+#   → 无 OpenCLI 适配，自动进入决策树第 1 层并行执行（WebFetch + CDP）
+
+---
+
+sites:
+
+  # ==================== public（无需登录） ====================
+  36kr.com:
+    opencli_type: public
+    opencli_cmd: 36kr
+    subcmds: [article, hot, news, search]
+    description: 36氪科技资讯
+
+  apple-podcasts.com:
+    opencli_type: public
+    opencli_cmd: apple-podcasts
+    subcmds: [episodes, search, top]
+    description: Apple Podcasts 播客
+
+  arxiv.org:
+    opencli_type: public
+    opencli_cmd: arxiv
+    subcmds: [paper, search]
+    description: arXiv 学术论文
+
+  bbc.com:
+    opencli_type: public
+    opencli_cmd: bbc
+    subcmds: [news]
+    description: BBC 新闻头条
+
+  bluesky.social:
+    opencli_type: public
+    opencli_cmd: bluesky
+    subcmds: [feeds, followers, following, profile, search, starter-packs, thread, trending, user]
+    description: Bluesky 社交
+
+  chatgpt.com:
+    opencli_type: public
+    opencli_cmd: chatgpt
+    subcmds: [ask, model, new, read, send, status]
+    description: ChatGPT 桌面应用
+
+  dev.to:
+    opencli_type: public
+    opencli_cmd: devto
+    subcmds: [tag, top, user]
+    description: DEV.to 开发者社区
+
+  dictionary.com:
+    opencli_type: public
+    opencli_cmd: dictionary
+    subcmds: [examples, search, synonyms]
+    description: 英语词典
+
+  google.com:
+    opencli_type: public
+    opencli_cmd: google
+    subcmds: [news, search, suggest, trends]
+    description: Google 搜索
+
+  hackernews.ycombinator.com:
+    opencli_type: public
+    opencli_cmd: hackernews
+    subcmds: [ask, best, jobs, new, search, show, top, user]
+    description: Hacker News
+
+  hf.co:
+    opencli_type: public
+    opencli_cmd: hf
+    subcmds: [top]
+    description: Hugging Face 论文
+
+  imdb.com:
+    opencli_type: public
+    opencli_cmd: imdb
+    subcmds: [person, reviews, search, title, top, trending]
+    description: IMDb 电影
+
+  lobste.rs:
+    opencli_type: public
+    opencli_cmd: lobsters
+    subcmds: [active, hot, newest, tag]
+    description: Lobste.rs 技术社区
+
+  paperreview.ai:
+    opencli_type: public
+    opencli_cmd: paperreview
+    subcmds: [feedback, review, submit]
+    description: 论文评审
+
+  producthunt.com:
+    opencli_type: public
+    opencli_cmd: producthunt
+    subcmds: [browse, hot, posts, today]
+    description: Product Hunt 新产品
+
+  sina.com:
+    opencli_type: public
+    opencli_cmd: sinablog
+    subcmds: [search]
+    description: 新浪博客搜索
+
+  sinafinance.com:
+    opencli_type: public
+    opencli_cmd: sinafinance
+    subcmds: [news, stock]
+    description: 新浪财经快讯
+
+  spotify.com:
+    opencli_type: public
+    opencli_cmd: spotify
+    subcmds: [auth, next, pause, play, prev, queue, repeat, search, shuffle, status, volume]
+    description: Spotify 音乐控制
+
+  stackoverflow.com:
+    opencli_type: public
+    opencli_cmd: stackoverflow
+    subcmds: [bounties, hot, search, unanswered]
+    description: Stack Overflow
+
+  steamcommunity.com:
+    opencli_type: public
+    opencli_cmd: steam
+    subcmds: [top-sellers]
+    description: Steam 热销游戏
+
+  substack.com:
+    opencli_type: public
+    opencli_cmd: substack
+    subcmds: [search]
+    description: Substack 搜索
+
+  tieba.baidu.com:
+    opencli_type: public
+    opencli_cmd: tieba
+    subcmds: [hot]
+    description: 百度贴吧热榜
+
+  v2ex.com:
+    opencli_type: public
+    opencli_cmd: v2ex
+    subcmds: [hot, latest, member, node, nodes, replies, topic, user]
+    description: V2EX 社区
+
+  wikipedia.org:
+    opencli_type: public
+    opencli_cmd: wikipedia
+    subcmds: [random, search, summary, trending]
+    description: Wikipedia 百科
+
+  xiaoyuzhoufm.com:
+    opencli_type: public
+    opencli_cmd: xiaoyuzhou
+    subcmds: [episode, podcast, podcast-episodes]
+    description: 小宇宙播客
+
+  weread.qq.com:
+    opencli_type: public
+    opencli_cmd: weread
+    subcmds: [ranking, search]
+    description: 微信读书排行榜
+
+  bloomberg.com:
+    opencli_type: public
+    opencli_cmd: bloomberg
+    subcmds: [businessweek, economics, feeds, industries, main, markets, opinions, politics, tech]
+    description: 彭博资讯 RSS
+
+  yollomi.com:
+    opencli_type: public
+    opencli_cmd: yollomi
+    subcmds: [models]
+    description: Yollomi AI 模型列表
+
+  # ==================== cookie（需登录态，Bridge 提供 Cookie） ====================
+  band.us:
+    opencli_type: cookie
+    opencli_cmd: band
+    subcmds: [bands, mentions, post, posts]
+    description: Naver Band 社交
+
+  barchart.com:
+    opencli_type: cookie
+    opencli_cmd: barchart
+    subcmds: [flow, greeks, options, quote]
+    description: Barchart 期权数据
+
+  bilibili.com:
+    opencli_type: cookie
+    opencli_cmd: bilibili
+    subcmds: [comments, download, dynamic, favorite, feed, following, history, hot, me, ranking, search, subtitle, user-videos]
+    description: B站 视频/动态
+
+  bloomberg.com:
+    opencli_type: cookie
+    opencli_cmd: bloomberg
+    subcmds: [news]
+    description: 彭博新闻全文（需订阅）
+
+  boss.zhipin.com:
+    opencli_type: cookie
+    opencli_cmd: boss
+    subcmds: [batchgreet, chatlist, chatmsg, detail, exchange, greet, invite, joblist, mark, recommend, resume, search, send, stats]
+    description: BOSS 直聘
+
+  chaoxing.com:
+    opencli_type: cookie
+    opencli_cmd: chaoxing
+    subcmds: [assignments, exams]
+    description: 学习通
+
+  coupang.com:
+    opencli_type: cookie
+    opencli_cmd: coupang
+    subcmds: [add-to-cart, search]
+    description: 韩国酷澎电商
+
+  ctrip.com:
+    opencli_type: cookie
+    opencli_cmd: ctrip
+    subcmds: [search]
+    description: 携程旅行
+
+  douban.com:
+    opencli_type: cookie
+    opencli_cmd: douban
+    subcmds: [book-hot, download, marks, movie-hot, photos, reviews, search, subject, top250]
+    description: 豆瓣
+
+  doubao.com:
+    opencli_type: cookie
+    opencli_cmd: doubao
+    subcmds: [ask, detail, history, meeting-summary, meeting-transcript, new, read, send, status]
+    description: 豆包 AI 对话
+
+  douyin.com:
+    opencli_type: cookie
+    opencli_cmd: douyin
+    subcmds: [activities, collections, delete, draft, drafts, hashtag, location, profile, publish, stats, update, user-videos, videos]
+    description: 抖音
+
+  facebook.com:
+    opencli_type: cookie
+    opencli_cmd: facebook
+    subcmds: [add-friend, events, feed, friends, groups, join-group, memories, notifications, profile, search]
+    description: Facebook
+
+  grok.com:
+    opencli_type: cookie
+    opencli_cmd: grok
+    subcmds: [ask]
+    description: Grok AI
+
+  instagram.com:
+    opencli_type: cookie
+    opencli_cmd: instagram
+    subcmds: [comment, explore, follow, followers, following, like, profile, save, saved, search, unfollow, unlike, unsave, user]
+    description: Instagram
+
+  jd.com:
+    opencli_type: cookie
+    opencli_cmd: jd
+    subcmds: [item]
+    description: 京东商品详情
+
+  jike.com:
+    opencli_type: cookie
+    opencli_cmd: jike
+    subcmds: [feed, notifications, post, search, topic, user]
+    description: 即刻社区
+
+  jimeng.jianying.com:
+    opencli_type: cookie
+    opencli_cmd: jimeng
+    subcmds: [generate, history]
+    description: 即梦 AI 文生图
+
+  linkedin.com:
+    opencli_type: cookie
+    opencli_cmd: linkedin
+    subcmds: [timeline]
+    description: LinkedIn 动态
+
+  linux.do:
+    opencli_type: cookie
+    opencli_cmd: linux-do
+    subcmds: [categories, category, feed, hot, latest, search, tags, topic, user-posts, user-topics]
+    description: Linux.do 论坛
+
+  medium.com:
+    opencli_type: cookie
+    opencli_cmd: medium
+    subcmds: [feed, search, user]
+    description: Medium 博客
+
+  ones.com:
+    opencli_type: cookie
+    opencli_cmd: ones
+    subcmds: [login, logout, me, my-tasks, task, tasks, token-info, worklog]
+    description: ONES 项目管理
+
+  pixiv.net:
+    opencli_type: cookie
+    opencli_cmd: pixiv
+    subcmds: [detail, download, illusts, ranking, search, user]
+    description: Pixiv 插画
+
+  reddit.com:
+    opencli_type: cookie
+    opencli_cmd: reddit
+    subcmds: [comment, frontpage, hot, popular, read, save, saved, search, subreddit, subscribe, upvote, upvoted, user, user-comments, user-posts]
+    description: Reddit
+
+  reuters.com:
+    opencli_type: cookie
+    opencli_cmd: reuters
+    subcmds: [search]
+    description: 路透社新闻
+
+  sina.com:
+    opencli_type: cookie
+    opencli_cmd: sinablog
+    subcmds: [article, hot, user]
+    description: 新浪博客文章
+
+  sinafinance.com:
+    opencli_type: cookie
+    opencli_cmd: sinafinance
+    subcmds: [rolling-news]
+    description: 新浪财经滚动新闻
+
+  smzdm.com:
+    opencli_type: cookie
+    opencli_cmd: smzdm
+    subcmds: [search]
+    description: 什么值得买
+
+  substack.com:
+    opencli_type: cookie
+    opencli_cmd: substack
+    subcmds: [feed, publication]
+    description: Substack 订阅
+
+  tieba.baidu.com:
+    opencli_type: cookie
+    opencli_cmd: tieba
+    subcmds: [posts, read, search]
+    description: 百度贴吧帖子
+
+  tiktok.com:
+    opencli_type: cookie
+    opencli_cmd: tiktok
+    subcmds: [comment, explore, follow, following, friends, like, live, notifications, profile, save, search, unfollow, unlike, unsave, user]
+    description: TikTok
+
+  twitter.com:
+    opencli_type: cookie
+    opencli_cmd: twitter
+    subcmds: [article, bookmarks, download, thread, timeline, trending]
+    description: Twitter/X（需登录部分）
+
+  v2ex.com:
+    opencli_type: cookie
+    opencli_cmd: v2ex
+    subcmds: [daily, me, notifications]
+    description: V2EX 签到/通知
+
+  weibo.com:
+    opencli_type: cookie
+    opencli_cmd: weibo
+    subcmds: [comments, feed, hot, me, post, search, user]
+    description: 微博
+
+  weixin.qq.com:
+    opencli_type: cookie
+    opencli_cmd: weixin
+    subcmds: [download]
+    description: 微信公众号文章
+
+  weread.qq.com:
+    opencli_type: cookie
+    opencli_cmd: weread
+    subcmds: [book, highlights, notebooks, notes, shelf]
+    description: 微信读书书架/笔记
+
+  xiaohongshu.com:
+    opencli_type: cookie
+    opencli_cmd: xiaohongshu
+    subcmds: [comments, creator-note-detail, creator-notes, creator-notes-summary, creator-profile, creator-stats, download, search, user]
+    description: 小红书
+
+  xueqiu.com:
+    opencli_type: cookie
+    opencli_cmd: xueqiu
+    subcmds: [comments, earnings-date, feed, fund-holdings, fund-snapshot, hot, hot-stock, search, stock, watchlist]
+    description: 雪球财经
+
+  yahoo-finance.com:
+    opencli_type: cookie
+    opencli_cmd: yahoo-finance
+    subcmds: [quote]
+    description: Yahoo Finance 股票行情
+
+  yollomi.com:
+    opencli_type: cookie
+    opencli_cmd: yollomi
+    subcmds: [background, edit, face-swap, generate, object-remover, remove-bg, restore, try-on, upload, upscale, video]
+    description: Yollomi AI 图片/视频生成
+
+  zhihu.com:
+    opencli_type: cookie
+    opencli_cmd: zhihu
+    subcmds: [download, hot, question, search]
+    description: 知乎
+
+  zsxq.com:
+    opencli_type: cookie
+    opencli_cmd: zsxq
+    subcmds: [dynamics, groups, search, topic, topics]
+    description: 知识星球
+
+  xiaohongshu.com:
+    opencli_type: intercept
+    opencli_cmd: xiaohongshu
+    subcmds: [feed, notifications]
+    description: 小红书首页推荐/通知（拦截模式）
+
+  twitter.com:
+    opencli_type: intercept
+    opencli_cmd: twitter
+    subcmds: [followers, following, notifications, search]
+    description: Twitter/X 搜索/通知（拦截模式）
+
+  producthunt.com:
+    opencli_type: intercept
+    opencli_cmd: producthunt
+    subcmds: [browse, hot]
+    description: Product Hunt（拦截模式）
+
+  36kr.com:
+    opencli_type: intercept
+    opencli_cmd: 36kr
+    subcmds: [article, hot, search]
+    description: 36氪（拦截模式）
+
+  band.us:
+    opencli_type: intercept
+    opencli_cmd: band
+    subcmds: [mentions]
+    description: Band @提及（拦截模式）
+
+  # ==================== ui（需桌面应用 CDP，降级处理） ====================
+  antigravity:
+    opencli_type: ui
+    opencli_cmd: antigravity
+    subcmds: [dump, extract-code, model, new, read, send, status, watch]
+    description: Antigravity AI 桌面应用
+
+  chatwise:
+    opencli_type: ui
+    opencli_cmd: chatwise
+    subcmds: [ask, export, history, model, read, send]
+    description: ChatWise AI 桌面应用
+
+  codex:
+    opencli_type: ui
+    opencli_cmd: codex
+    subcmds: [ask, export, extract-diff, history, model, read, send]
+    description: Codex 桌面应用
+
+  cursor.com:
+    opencli_type: ui
+    opencli_cmd: cursor
+    subcmds: [ask, composer, export, extract-code, history, model, read, send]
+    description: Cursor 编辑器 AI
+
+  discord.com:
+    opencli_type: ui
+    opencli_cmd: discord-app
+    subcmds: [channels, members, read, search, send, servers, status]
+    description: Discord 桌面应用
+
+  doubao.com:
+    opencli_type: ui
+    opencli_cmd: doubao-app
+    subcmds: [ask, dump, new, read, screenshot, send, status]
+    description: 豆包桌面应用
+
+  notion.so:
+    opencli_type: ui
+    opencli_cmd: notion
+    subcmds: [export, favorites, new, read, search, sidebar, status, write]
+    description: Notion 桌面应用
+
+  twitter.com:
+    opencli_type: ui
+    opencli_cmd: twitter
+    subcmds: [accept, block, bookmark, delete, follow, hide-reply, like, post, profile, reply, reply-dm, unblock, unbookmark, unfollow]
+    description: Twitter/X 交互操作（UI 模式）
+
+  jike.com:
+    opencli_type: ui
+    opencli_cmd: jike
+    subcmds: [comment, create, like, repost]
+    description: 即刻交互操作（UI 模式）
+
+  # ==================== 旧版补回（无 OpenCLI 适配，走 WebFetch + CDP 降级） ====================
+
+  github.com:
+    opencli_type: installed
+    opencli_cmd: gh
+    subcmds: [repo, pr, issue, release, gist]
+    description: GitHub 代码托管（通过 gh CLI）
+
+  gitlab.com:
+    opencli_type: none
+    description: GitLab 代码托管
+
+  x.com:
+    opencli_type: ui
+    opencli_cmd: twitter
+    subcmds: [accept, block, bookmark, delete, follow, hide-reply, like, post, profile, reply, reply-dm, unblock, unbookmark, unfollow]
+    description: X/Twitter（同 twitter.com）
+
+  mp.weixin.qq.com:
+    opencli_type: cookie
+    opencli_cmd: weixin
+    subcmds: [download]
+    description: 微信公众号文章
+
+  youtube.com:
+    opencli_type: cookie
+    opencli_cmd: youtube
+    subcmds: [channel, comments, search, transcript, video]
+    description: YouTube 视频
+
+  feishu.cn:
+    opencli_type: installed
+    opencli_cmd: lark-cli
+    subcmds: []
+    description: 飞书（通过 lark-cli）
+
+  notion.site:
+    opencli_type: ui
+    opencli_cmd: notion
+    subcmds: [export, favorites, new, read, search, sidebar, status, write]
+    description: Notion 公开页面（同 notion.so）
+
+  gitee.com:
+    opencli_type: none
+    description: Gitee 代码托管
+
+  bitbucket.org:
+    opencli_type: none
+    description: Bitbucket 代码托管
+
+  hashnode.com:
+    opencli_type: none
+    description: Hashnode 技术博客
+
+  gitbook.io:
+    opencli_type: none
+    description: GitBook 技术文档
+
+  readthedocs.io:
+    opencli_type: none
+    description: Read the Docs 技术文档
+
+  huxiu.com:
+    opencli_type: none
+    description: 虎嗅科技资讯
+
+  yuque.com:
+    opencli_type: none
+    description: 语雀知识文档
+
+  kdocs.cn:
+    opencli_type: none
+    description: 金山文档
+
+  365.kdocs.cn:
+    opencli_type: none
+    description: 金山文档（365）
+
+  docs.qq.com:
+    opencli_type: none
+    description: 腾讯文档
+
+  xhslink.com:
+    opencli_type: none
+    description: 小红书短链接
+
+  t.co:
+    opencli_type: none
+    description: Twitter/X 短链接

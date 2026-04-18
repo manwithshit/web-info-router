@@ -1,0 +1,3 @@
+display_name: Web Information Router
+short_description: Multi-agent web information routing engine
+default_prompt: Use the web-info-router skill to find the optimal path for fetching web content.
